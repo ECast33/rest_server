@@ -1,0 +1,14 @@
+# Dependency directories
+/node_modules/
+
+# Compiles
+build
+dist
+tests/out
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
