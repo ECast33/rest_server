@@ -5,13 +5,14 @@
   "author": "eddie <ed.castillo@designinteractive.net>",
   "homepage": "",
   "license": "ISC",
-  "main": "src/index.ts",
+  "main": "src/index",
+  "module": "src/index",
   "directories": {
     "lib": "src",
     "test": "__tests__"
   },
   "files": [
-    "src"
+    "./src"
   ],
   "publishConfig": {
     "access": "public"

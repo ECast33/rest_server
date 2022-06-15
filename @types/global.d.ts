@@ -22,11 +22,15 @@ interface AuthenticationConfig {
     TLS_KEY: string;
     TLS_CERT: string;
     TLS_PASSPHRASE: string;
+    SIGNUP_STRATEGY_NAME: string,
+    LOGIN_STRATEGY_NAME: string,
+
     SSH_HOST: string;
     SSH_HOST_APP_USER: string;
     SSH_HOST_APP_PASSWORD: string
     DEFAULT_ROOT_PASSWORD: string;
     DEFAULT_ADMIN_PASSWORD: string;
+
 }
 
 interface DatabaseConfig {

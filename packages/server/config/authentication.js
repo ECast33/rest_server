@@ -24,9 +24,13 @@ module.exports = {
     TLS_CERT: '',
     TLS_PASSPHRASE: '',
 
+    SIGNUP_STRATEGY_NAME: 'local-signup',
+    LOGIN_STRATEGY_NAME: 'local-login',
+
     SSH_HOST: '192.168.0.1',
     SSH_HOST_APP_USER: 'imitate',
     SSH_HOST_APP_PASSWORD: 'Design!123',
     DEFAULT_ROOT_PASSWORD: 'Design!123',
-    DEFAULT_ADMIN_PASSWORD: 'Design!123'
+    DEFAULT_ADMIN_PASSWORD: 'Design!123',
+
 }

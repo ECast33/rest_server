@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  //  "paths": {
+  //    "@imitate/server": [
+  //      "server/src"
+  //    ]
+  //  },
+  //  "references": [{
+  //    "path": "../server"
+  //  }],
+  "include": [
+    "src/**/*",
+    "../../@types/global.d.ts"
+  ]
+}

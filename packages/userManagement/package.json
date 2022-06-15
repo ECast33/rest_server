@@ -1,9 +1,10 @@
 {
-  "name": "@imitate/server",
-  "version": "1.0.0",
-  "author": "Eddie Castillo",
-  "license": "MIT",
-  "private": true,
+  "name": "@imitate/usermanagement",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "eddie <ed.castillo@designinteractive.net>",
+  "homepage": "",
+  "license": "ISC",
   "main": "src/index",
   "module": "src/index",
   "directories": {
@@ -13,6 +14,13 @@
   "files": [
     "./src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "designinteractive@vs-ssh.visualstudio.com:v3/designinteractive/IMITATE/IMITATE_2"
+  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "yarn run clean && yarn run compile",

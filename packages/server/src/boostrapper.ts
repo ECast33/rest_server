@@ -4,13 +4,14 @@ import express_session from "express-session";
 import * as Config from 'app-config';
 import passport from 'passport';
 import MySQLStore from "express-mysql-session";
+import {PassportService} from "@imitate/authentication";
 
 export class Bootstrapper {
-    constructor(private app: Express) {
+    constructor(private app: Express, private passportService: PassportService) {
     }
 
     public registerMiddleware() {
-        // AuthenticationModule.initialize(passport);
+        this.passportService.initialize(passport);
         // CorsService.init(app);
         // SiteHostingService.init(app);
         this.app.use(bodyParser.urlencoded({limit: "1000mb", extended: true, parameterLimit: 50000}));

@@ -5,6 +5,10 @@
   "private": true,
   "main": "src/index",
   "module": "src/index",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
   "files": [
     "./src"
   ],

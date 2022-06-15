@@ -1,0 +1,4 @@
+export class UserManagementService {
+    constructor() {
+    }
+}

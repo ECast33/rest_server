@@ -6,13 +6,14 @@ import fs from "fs";
 import {Logger, MorganProvider} from "@imitate/logger";
 import {Bootstrapper} from "./boostrapper";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
+import {PassportService} from "@imitate/authentication";
 
 export class Worker {
     private app = express();
     private express_server: any;
     private port = Config.app.PORT || 8000;
     private morganProvider: MorganProvider = new MorganProvider(this.app);
-    private bootstrapper: Bootstrapper = new Bootstrapper(this.app);
+    private bootstrapper: Bootstrapper = new Bootstrapper(this.app, new PassportService(new Logger()));
 
     constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
     }
