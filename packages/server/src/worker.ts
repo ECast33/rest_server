@@ -5,6 +5,7 @@ import https from "https";
 import fs from "fs";
 import {Logger, MorganProvider} from "@imitate/logger";
 import {Bootstrapper} from "./boostrapper";
+import {SqlDatabaseService} from "./services/sqlDatabase.service";
 
 export class Worker {
     private app = express();
@@ -13,7 +14,7 @@ export class Worker {
     private morganProvider: MorganProvider = new MorganProvider(this.app);
     private bootstrapper: Bootstrapper = new Bootstrapper(this.app);
 
-    constructor(private logger: Logger) {
+    constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
     }
 
     async start() {
@@ -21,7 +22,7 @@ export class Worker {
         // =============================================================================
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
-            // let DB = await this.databaseService.initialize();
+            let DB = await this.databaseService.initialize();
             await this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({

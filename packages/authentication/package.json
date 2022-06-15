@@ -1,0 +1,30 @@
+{
+  "name": "@imitate/authentication",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "eddie <ed.castillo@designinteractive.net>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "src/index.ts",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "designinteractive@vs-ssh.visualstudio.com:v3/designinteractive/IMITATE/IMITATE_2"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf ./dist/**/* && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc --build --clean",
+    "index": "barrelsby -d ./src --delete"
+  }
+}

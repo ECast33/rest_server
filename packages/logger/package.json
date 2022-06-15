@@ -6,7 +6,7 @@
   "main": "src/index",
   "module": "src/index",
   "files": [
-    "src"
+    "./src"
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
