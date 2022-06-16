@@ -31,7 +31,7 @@ export class PassportService {
                     return done(undefined, user);
                 }
             } catch (error) {
-                this.logger.error('Error getting user while deserializing. uid: ', id, error);
+                this.logger.error('Error getting user By id ', id, error);
                 return done(error, false);
             }
         });

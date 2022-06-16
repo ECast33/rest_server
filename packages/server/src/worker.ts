@@ -7,13 +7,13 @@ import {Logger, MorganProvider} from "@imitate/logger";
 import {Bootstrapper} from "./boostrapper";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 import {PassportService} from "@imitate/authentication";
+import {UserDao} from "@imitate/usermanagement";
 
 export class Worker {
     private app = express();
     private express_server: any;
     private port = Config.app.PORT || 8000;
-    private morganProvider: MorganProvider = new MorganProvider(this.app);
-    private bootstrapper: Bootstrapper = new Bootstrapper(this.app, new PassportService(new Logger()));
+    private bootstrapper: Bootstrapper = new Bootstrapper(this.app, new PassportService(this.logger, new UserDao(this.logger, new SqlDatabaseService(this.logger))));
 
     constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
     }
@@ -24,7 +24,7 @@ export class Worker {
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
             let DB = await this.databaseService.initialize();
-            await this.bootstrap();
+            this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({
                     key: fs.readFileSync(Config.authentication.TLS_KEY),
@@ -44,10 +44,10 @@ export class Worker {
         }
     }
 
-    async bootstrap() {
+    bootstrap() {
         this.bootstrapper.registerMiddleware();
-        // await this.bootstrapper.registerRoutes(this.app);
-        this.morganProvider.init();
+        this.bootstrapper.registerRoutes();
+        // this.morganProvider.init();
         // Final Chain Error Handling
         this.app.use((req, res, next) => {
             // log.error(err.stack);

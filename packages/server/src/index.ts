@@ -5,5 +5,6 @@
 export * from "./boostrapper";
 export * from "./server";
 export * from "./worker";
+export * from "./interfaces/baseRouter";
 export * from "./services/cors.service";
 export * from "./services/sqlDatabase.service";

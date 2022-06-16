@@ -3,4 +3,6 @@
  */
 
 export * from "./authentication.controller";
+export * from "./authentication.routes";
+export * from "./authentication.validator";
 export * from "./services/passport.service";

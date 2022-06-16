@@ -4,13 +4,23 @@ import express_session from "express-session";
 import * as Config from 'app-config';
 import passport from 'passport';
 import MySQLStore from "express-mysql-session";
-import {PassportService} from "@imitate/authentication";
+import {
+    PassportService,
+    AuthenticationRoutes,
+    AuthenticationController,
+    AuthenticationValidator
+} from "@imitate/authentication";
+import {Logger, MorganProvider} from "@imitate/logger";
 
 export class Bootstrapper {
+    private logger: Logger = new Logger()
+    private morganProvider: MorganProvider = new MorganProvider(this.app);
+
     constructor(private app: Express, private passportService: PassportService) {
     }
 
     public registerMiddleware() {
+        this.morganProvider.init();
         this.passportService.initialize(passport);
         // CorsService.init(app);
         // SiteHostingService.init(app);
@@ -20,4 +30,9 @@ export class Bootstrapper {
         this.app.use(passport.initialize());
         this.app.use(passport.session());
     }
+
+    public registerRoutes() {
+        this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger), new AuthenticationValidator()).router);
+    }
+
 }
