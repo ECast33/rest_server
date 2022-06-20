@@ -8,15 +8,23 @@ import {
     PassportService,
     AuthenticationRoutes,
     AuthenticationController,
-    AuthenticationValidator
+    AuthenticationValidator, AuthenticationUtility
 } from "@imitate/authentication";
 import {Logger, MorganProvider} from "@imitate/logger";
+import {ServerUtilityService} from "./services/serverUtility.service";
 
-export class Bootstrapper {
-    private logger: Logger = new Logger()
-    private morganProvider: MorganProvider = new MorganProvider(this.app);
+export class AppContext {
+    private logger: Logger;
+    private morganProvider: MorganProvider;
+    private serverUtilityService: ServerUtilityService;
+    private authenticationUtility: AuthenticationUtility;
 
     constructor(private app: Express, private passportService: PassportService) {
+        // instantiate needed dependencies
+        this.logger = new Logger();
+        this.morganProvider = new MorganProvider(this.app);
+        this.serverUtilityService = new ServerUtilityService(this.logger);
+        this.authenticationUtility = new AuthenticationUtility();
     }
 
     public registerMiddleware() {
@@ -32,7 +40,8 @@ export class Bootstrapper {
     }
 
     public registerRoutes() {
-        this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger), new AuthenticationValidator()).router);
+        this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger, this.serverUtilityService),
+            new AuthenticationValidator(), this.authenticationUtility).router);
     }
 
 }

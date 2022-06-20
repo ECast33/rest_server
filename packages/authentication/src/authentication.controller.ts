@@ -4,9 +4,10 @@ import {Logger} from "@imitate/logger";
 import {StatusCodes} from "http-status-codes";
 import {authentication} from "app-config";
 import {User} from "@imitate/usermanagement";
+import {ServerUtilityService} from "@imitate/server";
 
 export class AuthenticationController {
-    constructor(private logger: Logger) {
+    constructor(private logger: Logger, private serverUtilityService: ServerUtilityService) {
     }
 
     login(req: Request, res: Response, next) {
@@ -23,7 +24,7 @@ export class AuthenticationController {
                 res.json(info);
 
             } else {
-                req.login(user, async function (err) {
+                req.login(user, async (err) => {
                     if (err) {
                         res.status(StatusCodes.UNAUTHORIZED);
                         res.json(info);
@@ -33,17 +34,31 @@ export class AuthenticationController {
                             // if (result) {
                             const returnedUser = new User(user);
                             returnedUser.redactPassword();
-                            res.status(StatusCodes.OK);
-                            res.json(returnedUser);
+                            this.serverUtilityService.handleSuccess(returnedUser, res);
                             // }
-                        } catch (error) {
-                            res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-                            res.json(error);
-                            // SystemUtilityService.handleRestError('Error login', error, res);
+                        } catch (error: any) {
+                            this.serverUtilityService.handleRestError('Error login', error, res);
                         }
                     }
                 });
             }
         })(req, res, undefined);
+    }
+
+    async logout(req: Request, res: Response) {
+        try {
+            // const success = await this._userManagementService.updateTimeInApp(req.user);
+            req.logout((err) => {
+                if (err) {
+                    throw err;
+                } else {
+                    this.serverUtilityService.handleSuccess(undefined, res);
+                }
+            });
+
+        } catch (error: any) {
+            this.serverUtilityService.handleRestError('Error logout ', error, res);
+        }
+
     }
 }

@@ -1,3 +1,6 @@
+import {IUser, User} from "@imitate/usermanagement";
+import {Request} from 'express';
+
 declare module 'app-config' {
     let app: AppConfig;
     let authentication: AuthenticationConfig;
@@ -50,4 +53,13 @@ interface DatabaseConfigOptions {
 interface MongooseConfig {
     host: string;
     options: ConnectionOptions;
+}
+
+export interface IGetUserAuthInfoRequest extends Request {
+    user: User;
+    session: any;
+    login: any;
+    logout: any;
+
+    isAuthenticated(): boolean;
 }

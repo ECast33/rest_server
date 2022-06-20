@@ -3,19 +3,24 @@ import express from 'express';
 import * as Config from 'app-config';
 import https from "https";
 import fs from "fs";
-import {Logger, MorganProvider} from "@imitate/logger";
-import {Bootstrapper} from "./boostrapper";
+import {Logger} from "@imitate/logger";
+import {AppContext} from "./appContext";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
-import {PassportService} from "@imitate/authentication";
+import {PassportService, AuthenticationUtility} from "@imitate/authentication";
 import {UserDao} from "@imitate/usermanagement";
 
 export class Worker {
     private app = express();
     private express_server: any;
     private port = Config.app.PORT || 8000;
-    private bootstrapper: Bootstrapper = new Bootstrapper(this.app, new PassportService(this.logger, new UserDao(this.logger, new SqlDatabaseService(this.logger))));
+    private context: AppContext;
+    private readonly passportService: PassportService;
+    private authUtility: AuthenticationUtility;
 
     constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
+        this.authUtility = new AuthenticationUtility();
+        this.passportService = new PassportService(this.logger, new UserDao(this.logger, new SqlDatabaseService(this.logger)), this.authUtility)
+        this.context = new AppContext(this.app, this.passportService);
     }
 
     async start() {
@@ -45,15 +50,13 @@ export class Worker {
     }
 
     bootstrap() {
-        this.bootstrapper.registerMiddleware();
-        this.bootstrapper.registerRoutes();
-        // this.morganProvider.init();
+        this.context.registerMiddleware();
+        this.context.registerRoutes();
+
         // Final Chain Error Handling
-        this.app.use((req, res, next) => {
-            // log.error(err.stack);
+        this.app.use((err: any, req, res, next) => {
+            this.logger.error(err.stack);
             res.status(500).send('Internal Server Error');
-        }, err => {
-            this.logger.error(err);
         });
 
         process.on('SIGINT', () => {

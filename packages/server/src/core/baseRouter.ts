@@ -1,5 +1,6 @@
 import {Router} from "express";
 import Config from "app-config";
+import {CoreRoutes} from "./interfaces/IcoreRoutes";
 
 export class BaseRouter {
     protected _router: Router;
@@ -16,3 +17,4 @@ export class BaseRouter {
         return `${Config.app.API_BASE_ROUTE}`
     }
 }
+

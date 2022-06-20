@@ -1,12 +1,16 @@
+import {AuthenticationUtility} from "./authentication.utility";
+
 let LocalStrategy = require('passport-local').Strategy;
 import {Logger} from "@imitate/logger";
 import {PassportStatic} from "passport";
 import {authentication} from "app-config";
-import {UserDao} from "@imitate/usermanagement";
-import * as bcrypt from 'bcrypt';
+import {User, UserDao} from "@imitate/usermanagement";
+
 
 export class PassportService {
-    constructor(private logger: Logger, private userDao: UserDao) {
+
+    constructor(private logger: Logger, private userDao: UserDao,
+                private authenticationUtility: AuthenticationUtility) {
     }
 
     initialize(passport: PassportStatic) {
@@ -17,7 +21,7 @@ export class PassportService {
         // passport needs ability to serialize and unserialize users out of session
 
         // used to serialize the user for the session
-        passport.serializeUser(function (user: any, done) {
+        passport.serializeUser((user: any, done) => {
             done(null, user.id);
         });
 
@@ -47,7 +51,7 @@ export class PassportService {
                     if (!user) {
                         // if no user is found, return the message
                         return done(null, false, {message: 'Wrong credentials'});
-                    } else if (!this.validPassword(password, user._password)) {
+                    } else if (!this.authenticationUtility.validPassword(password, user._password)) {
                         // if the user is found but the password is wrong
                         return done(null, false, {message: 'Wrong credentials'});
                     } else if (!user._is_enabled) {
@@ -62,9 +66,5 @@ export class PassportService {
                     return done(error);
                 }
             }));
-    }
-
-    validPassword(attempt: string, password: string): boolean {
-        return bcrypt.compareSync(attempt, password);
     }
 }

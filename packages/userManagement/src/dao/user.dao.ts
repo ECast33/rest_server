@@ -16,7 +16,7 @@ export class UserDao {
                 const user = <IUser>_.first(rows);
                 return new User(user);
             } else {
-                throw ('no user found');
+                return undefined;
             }
 
         } catch (error) {
@@ -30,8 +30,12 @@ export class UserDao {
         let args = [username];
         try {
             let rows = await this.sqlDatabaseService.query<any>(baseSql, args);
-            let user = <IUser>_.first(rows);
-            return new User(user);
+            if (rows.length) {
+                const user = <IUser>_.first(rows);
+                return new User(user);
+            } else {
+                return undefined;
+            }
         } catch (error) {
             this.logger.error('Error getting user by username', error);
             throw(error);
