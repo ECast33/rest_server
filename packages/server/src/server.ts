@@ -19,8 +19,8 @@ export class Server {
             if (cluster.isPrimary) {
                 // let db = await this.qlDatabaseService.initialize(truncate);
                 // let run = await this.startupService.run();
-                // check for prod worker fork
 
+                // check for prod worker fork
                 if (Config.app.CLUSTERING_ENABLED && process.env.NODE_ENV != 'testing') {
                     for (let i = 0; i < numCPUs; i++) {
                         cluster.fork();
