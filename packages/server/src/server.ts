@@ -55,6 +55,7 @@ export class Server {
     }
 }
 
+// self starting server
 const server = new Server(new Logger(), new SqlDatabaseService(new Logger()));
 server.start().then(async (instance) => {
     instance.start().then(() => {
