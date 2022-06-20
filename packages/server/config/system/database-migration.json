@@ -1,0 +1,28 @@
+{
+  "defaultEnv": "local",
+  "local": {
+    "driver": "mysql",
+    "host": "localhost",
+    "user": "root",
+    "password": "Design!123",
+    "database": "imitate_dev",
+    "multipleStatements": true
+  },
+  "docker": {
+    "driver": "mysql",
+    "host": "MYSQL1",
+    "user": "root",
+    "password": "Design!123",
+    "database": "imitate",
+    "multipleStatements": true
+  },
+  "test": {
+    "driver": "mysql",
+    "host": "localhost",
+    "user": "root",
+    "password": "Design!123",
+    "database": "imitate_test",
+    "multipleStatements": true
+  }
+}
+

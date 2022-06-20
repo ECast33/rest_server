@@ -1,0 +1,21 @@
+{
+  "defaultEnv": "local",
+  "local": {
+    "driver": "mysql",
+    "host": "localhost",
+    "user": "root",
+    "password": "Design!123"
+  },
+  "docker": {
+    "driver": "mysql",
+    "host": "MYSQL1",
+    "user": "root",
+    "password": "Design!123"
+  },
+  "test": {
+    "driver": "mysql",
+    "host": "localhost",
+    "user": "root",
+    "password": "Design!123"
+  }
+}

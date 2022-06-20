@@ -9,14 +9,28 @@ TODO: Guide users through getting your code up and running on their own system. 
 
 1. Installation process
     1. uses node version 16.15.1
-    2. npm install -g yarn lerna typescript
+    2. npm 8.11.0
+    3. Type script 4.7.3
+    4. npm install -g yarn lerna typescript db-migrate db-migrate-mysql
 2. Software dependencies
 3. Latest releases
 4. API references
 
 # Build and Test
 
-TODO: Describe and show how to build your code and run the tests.
+# database migrations
+
+- create and drop
+
+`db-migrate --config ./packages/server/config/system/database-create.json --end local db:create test`
+
+`db-migrate --config ./packages/server/config/system/database-create.json --end local db:drop test`
+
+- run migrations
+
+`db-migrate --config ./packages/server/config/system/database-migration.json create baseline --sql-file`
+
+`db-migrate --config ./packages/server/config/system/database-migration.json --end local up --force-exit`
 
 # Contribute
 
