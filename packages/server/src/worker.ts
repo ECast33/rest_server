@@ -8,6 +8,7 @@ import {AppContext} from "./appContext";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 import {PassportService, AuthenticationUtility} from "@imitate/authentication";
 import {UserDao} from "@imitate/usermanagement";
+import path from "path";
 
 export class Worker {
     private app = express();
@@ -29,6 +30,7 @@ export class Worker {
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
             // let DB = await this.databaseService.initialize();
+            this.logger.info(path.join(__dirname))
             let dataSource = await this.databaseService.initDataSource();
             this.bootstrap();
             if (Config.app.HTTPS) {

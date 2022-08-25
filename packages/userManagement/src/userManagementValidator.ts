@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {StatusCodes} from "http-status-codes";
 import {validate} from "class-validator"
-import {IUser} from "./interfaces/user";
+import {IUser} from "./entities/user.entity";
 
 export class UserManagementValidator {
 

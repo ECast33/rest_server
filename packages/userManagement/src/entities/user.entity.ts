@@ -19,11 +19,13 @@ export type IUser = {
     time_in_app: number;
 }
 
-@Entity({name: 'User'})
+@Entity({name: 'user'})
 export class User implements IUser {
+
     constructor(user: IUser) {
-        user.is_enabled = (user.is_enabled === 1 || user.is_enabled === true);
-        user.agreed_to_lic = (user.agreed_to_lic === 1 || user.agreed_to_lic === true);
+        // not allowed in entity convention
+        // user.is_enabled = (user.is_enabled === 1 || user.is_enabled === true);
+        // user.agreed_to_lic = (user.agreed_to_lic === 1 || user.agreed_to_lic === true);
         Object.assign(this, user);
     }
 

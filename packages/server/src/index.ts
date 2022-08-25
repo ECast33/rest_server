@@ -9,6 +9,7 @@ export * from "./core/baseResponse";
 export * from "./core/baseRouter";
 export * from "./core/errorResponse";
 export * from "./core/interfaces/IcoreRoutes";
+export * from "./entities/user";
 export * from "./services/appDataSource";
 export * from "./services/cors.service";
 export * from "./services/serverUtility.service";

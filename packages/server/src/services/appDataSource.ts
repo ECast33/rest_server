@@ -1,6 +1,6 @@
 import "reflect-metadata"
 import {DataSource} from "typeorm"
-import {User} from "@imitate/usermanagement";
+import path from "path";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "imitate_orm",
     synchronize: true,
     logging: true,
-    entities: [User],
+    entities: [path.join(__dirname, '../../../**/entities/**.entity{.ts,.js}')],
     migrations: [],
     subscribers: [],
 });
