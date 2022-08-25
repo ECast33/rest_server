@@ -31,8 +31,7 @@ export class Worker {
         return new Promise(async (resolve, reject) => {
             let dataSource = await this.databaseService.initDataSource();
             if (dataSource) this.logger.info("Data Source has been initialized!");
-            else
-                this.bootstrap();
+            this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({
                     key: fs.readFileSync(Config.authentication.TLS_KEY),
