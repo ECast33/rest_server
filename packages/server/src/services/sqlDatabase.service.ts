@@ -1,11 +1,22 @@
 import * as mysql from 'mysql';
 import * as Config from 'app-config';
 import {Logger} from "@imitate/logger";
+import {AppDataSource} from "./appDataSource";
 
 export class SqlDatabaseService {
     private connectionPool: mysql.Pool = mysql.createPool(Config.database.OPTIONS);
 
     constructor(private logger: Logger) {
+    }
+
+    async initDataSource() {
+        return await AppDataSource.initialize();
+        // .then(() => {
+        //     this.logger.info("Data Source has been initialized!")
+        // })
+        // .catch((err) => {
+        //     this.logger.error("Error during Data Source initialization", err)
+        // })
     }
 
     initialize(truncate?: boolean) {

@@ -3,7 +3,9 @@
  */
 
 export * from "./userManagement.routes";
-export * from "./repositories/user.dao";
+export * from "./userManagementController";
+export * from "./userManagementValidator";
 export * from "./enums/accessLevel";
 export * from "./interfaces/user";
+export * from "./repositories/user.dao";
 export * from "./services/userManagement.service";

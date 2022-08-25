@@ -5,6 +5,7 @@ import cluster from "cluster";
 import {Logger} from "@imitate/logger";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 
+
 export class Server {
 
     constructor(public logger: Logger, private qlDatabaseService: SqlDatabaseService) {

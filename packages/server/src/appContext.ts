@@ -12,6 +12,12 @@ import {
 } from "@imitate/authentication";
 import {Logger, MorganProvider} from "@imitate/logger";
 import {ServerUtilityService} from "./services/serverUtility.service";
+import {
+    UserManagementController,
+    UserManagementRoutes,
+    UserManagementService,
+    UserManagementValidator
+} from "@imitate/usermanagement";
 
 export class AppContext {
     private logger: Logger;
@@ -42,6 +48,9 @@ export class AppContext {
     public registerRoutes() {
         this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger, this.serverUtilityService),
             new AuthenticationValidator(), this.authenticationUtility).router);
+
+        this.app.use(new UserManagementRoutes(new UserManagementController(this.logger, this.serverUtilityService, new UserManagementService()),
+            new UserManagementValidator(), this.authenticationUtility).router);
     }
 
 }

@@ -28,7 +28,7 @@ export class Worker {
         // =============================================================================
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
-            let DB = await this.databaseService.initialize();
+            let DB = await this.databaseService.initDataSource();
             this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({
