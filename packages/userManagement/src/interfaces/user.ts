@@ -19,7 +19,7 @@ export type IUser = {
     time_in_app: number;
 }
 
-@Entity()
+@Entity({name: 'User'})
 export class User implements IUser {
     constructor(user: IUser) {
         user.is_enabled = (user.is_enabled === 1 || user.is_enabled === true);
@@ -27,10 +27,6 @@ export class User implements IUser {
         Object.assign(this, user);
     }
 
-    redactPassword(): void {
-        this.password = 'REDACTED';
-    }
-    
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -78,6 +74,10 @@ export class User implements IUser {
 
     @Column()
     time_in_app: number;
+
+    redactPassword(): void {
+        this.password = 'REDACTED';
+    }
 }
 
 // export type IUser = {
