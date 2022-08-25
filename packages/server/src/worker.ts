@@ -29,10 +29,10 @@ export class Worker {
         // =============================================================================
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
-            // let DB = await this.databaseService.initialize();
-            this.logger.info(path.join(__dirname))
             let dataSource = await this.databaseService.initDataSource();
-            this.bootstrap();
+            if (dataSource) this.logger.info("Data Source has been initialized!");
+            else
+                this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({
                     key: fs.readFileSync(Config.authentication.TLS_KEY),

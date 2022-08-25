@@ -10,14 +10,11 @@ export class SqlDatabaseService {
     }
 
     async initDataSource() {
-        return await AppDataSource.initialize()
-            .then(async () => {
-                this.logger.info("Data Source has been initialized!")
-                // await AppDataSource.synchronize();
-            })
-            .catch((err) => {
-                this.logger.error("Error during Data Source initialization", err)
-            })
+        try {
+            return await AppDataSource.initialize();
+        } catch (error) {
+            this.logger.error("Error during Data Source initialization", error)
+        }
     }
 
     initialize(truncate?: boolean) {

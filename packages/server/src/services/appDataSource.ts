@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     password: "Design!123",
     database: "imitate_orm",
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [path.join(__dirname, '../../../**/entities/**.entity{.ts,.js}')],
     migrations: [],
     subscribers: [],
