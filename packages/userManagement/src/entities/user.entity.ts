@@ -74,7 +74,7 @@ export class User implements IUser {
     @Column()
     logins: number;
 
-    @Column()
+    @Column({nullable: true})
     time_in_app: number;
 
     redactPassword(): void {

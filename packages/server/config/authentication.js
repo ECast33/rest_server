@@ -10,9 +10,9 @@ module.exports = {
             store: new MySQLStore({
                 host: 'localhost',
                 port: 3306,
-                user: 'imitate',
-                password: 'iM!t@t3De$iGn!n7Eractiv3',
-                database: 'imitate_dev'
+                user: 'root',
+                password: 'Design!123',
+                database: 'imitate_orm'
             }),
             cookie: {
                 maxAge: 86400000, // 24 hours

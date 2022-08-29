@@ -51,10 +51,10 @@ export class PassportService {
                     if (!user) {
                         // if no user is found, return the message
                         return done(null, false, {message: 'Wrong credentials'});
-                    } else if (!this.authenticationUtility.validPassword(password, user._password)) {
+                    } else if (!this.authenticationUtility.validPassword(password, user.password)) {
                         // if the user is found but the password is wrong
                         return done(null, false, {message: 'Wrong credentials'});
-                    } else if (!user._is_enabled) {
+                    } else if (!user.is_enabled) {
                         // if the user's account is disabled
                         return done(null, false, {message: 'Inactive Account'});
                     } else {

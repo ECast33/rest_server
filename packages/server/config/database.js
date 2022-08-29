@@ -2,7 +2,7 @@ module.exports = {
     OPTIONS: {
         connectionLimit: 1,
         host: 'localhost',
-        database: 'imitate_dev',
+        database: 'imitate_orm',
         user: 'imitate',
         password: 'iM!t@t3De$iGn!n7Eractiv3',
         createDatabaseTable: true,
@@ -13,8 +13,8 @@ module.exports = {
         options: {
             user: 'imitate',
             pass: 'Design!123Mongo',
-            dbName: 'imitate_dev',
-            authSource: 'imitate_dev',
+            dbName: 'imitate_orm',
+            authSource: 'imitate_orm',
             useNewUrlParser: true,
             useUnifiedTopology: true
         },

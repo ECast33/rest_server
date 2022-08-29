@@ -29,7 +29,7 @@ export class AuthenticationUtility {
     }
 
     requiresActiveAccount(req: IGetUserAuthInfoRequest, res: Response, next: any) {
-        if (req && req.user._is_enabled || req.user._access_level === ACCESS_LEVELS.ROOT) {
+        if (req && req.user.is_enabled || req.user.access_level === ACCESS_LEVELS.ROOT) {
             next();
         } else {
             if (req.session) {
