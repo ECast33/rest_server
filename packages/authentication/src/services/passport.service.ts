@@ -4,12 +4,12 @@ let LocalStrategy = require('passport-local').Strategy;
 import {Logger} from "@imitate/logger";
 import {PassportStatic} from "passport";
 import {authentication} from "app-config";
-import {User, UserDao} from "@imitate/usermanagement";
+import {User, UserDao, UserManagementService} from "@imitate/usermanagement";
 
 
 export class PassportService {
 
-    constructor(private logger: Logger, private userDao: UserDao,
+    constructor(private logger: Logger, private userManagementService: UserManagementService,
                 private authenticationUtility: AuthenticationUtility) {
     }
 
@@ -28,7 +28,7 @@ export class PassportService {
         // used to deserialize the user
         passport.deserializeUser(async (id: number, done) => {
             try {
-                const user = await this.userDao.getUserById(id);
+                const user = await this.userManagementService.getUserById(id);
                 if (!user) {
                     return done(undefined, false);
                 } else {
@@ -47,7 +47,7 @@ export class PassportService {
             },
             async (username: string, password: string, done) => { // callback with email and password from our form
                 try {
-                    let user = await this.userDao.getByUsername(username);
+                    let user = await this.userManagementService.getByUsername(username);
                     if (!user) {
                         // if no user is found, return the message
                         return done(null, false, {message: 'Wrong credentials'});

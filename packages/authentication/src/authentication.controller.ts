@@ -3,11 +3,13 @@ import passport from 'passport';
 import {Logger} from "@imitate/logger";
 import {StatusCodes} from "http-status-codes";
 import {authentication} from "app-config";
-import {User} from "@imitate/usermanagement";
+import {IUser, User} from "@imitate/usermanagement";
 import {ServerUtilityService} from "@imitate/server";
+import {AuthenticationUtility} from "./services/authentication.utility";
 
 export class AuthenticationController {
-    constructor(private logger: Logger, private serverUtilityService: ServerUtilityService) {
+    constructor(private logger: Logger, private serverUtilityService: ServerUtilityService,
+                private authenticationUtility: AuthenticationUtility) {
     }
 
     login(req: Request, res: Response, next) {
@@ -60,5 +62,14 @@ export class AuthenticationController {
             this.serverUtilityService.handleRestError('Error logout ', error, res);
         }
 
+    }
+
+    isLoggedIn(req: Request, res: Response) {
+        let response: any = {
+            isLoggedIn: req.isAuthenticated()
+        };
+
+        if (req.isAuthenticated()) response.userProfile = this.authenticationUtility.sanitizeUserData(new User(req.user as IUser));
+        this.serverUtilityService.handleSuccess(response, res);
     }
 }

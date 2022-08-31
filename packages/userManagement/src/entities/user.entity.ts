@@ -35,7 +35,7 @@ export class User implements IUser {
     @Column()
     username: string;
 
-    @Column({select: false})
+    @Column()
     password: string;
 
     @Column()
@@ -44,7 +44,7 @@ export class User implements IUser {
     @Column()
     last_name: string;
 
-    @Column()
+    @Column({nullable: true})
     email: string;
 
     @Column()
@@ -65,7 +65,7 @@ export class User implements IUser {
     @Column()
     job_title: string;
 
-    @Column()
+    @Column({nullable: true})
     last_login: number;
 
     @Column()
