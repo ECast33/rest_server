@@ -9,7 +9,7 @@
     "tsnode": "export NODE_CONFIG_DIR=./packages/server/config/standard&& ts-node-dev --no-notify -T --ignore=false -r tsconfig-paths/register ./packages/server/src/server.ts",
     "build": "lerna run build",
     "container": "npm run migrate_container_db && pm2 --no-daemon start build/server.js --name='IMITATE'",
-    "tests": " export NODE_ENV=testing|| set NODE_ENV=testing&& TS_NODE_PROJECT=./tsconfig.json mocha --config mocharc.json"
+    "tests": " export NODE_CONFIG_DIR=./packages/server/config NODE_ENV=standard|| set NODE_ENV=standard&& TS_NODE_PROJECT=./tsconfig.json mocha --config mocharc.json"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
