@@ -4,9 +4,9 @@ import {UserManagementController} from "./userManagementController";
 import {AuthenticationUtility} from "@imitate/authentication";
 
 export class UserManagementRoutes extends BaseRouter {
-    private ADD_NEW_USER_ENDPOINT: string = this.baseUrl() + 'addNewUser';
-    private UPDATE_USER_ENDPOINT: string = this.baseUrl() + 'updateUser';
-    private GET_USER_ENDPOINT: string = this.baseUrl() + 'getUser';
+    private ADD_NEW_USER_ENDPOINT: string = this.baseUrl() + 'add-user';
+    private UPDATE_USER_ENDPOINT: string = this.baseUrl() + 'update-user';
+    private GET_USER_ENDPOINT: string = this.baseUrl() + 'get-user';
     private DEACTIVATE_USER_ENDPOINT: string = this.baseUrl() + 'deactivateUser';
 
     constructor(private userManagementController: UserManagementController, private userManagementValidator: UserManagementValidator,

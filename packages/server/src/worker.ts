@@ -7,8 +7,7 @@ import {Logger} from "@imitate/logger";
 import {AppContext} from "./appContext";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 import {PassportService, AuthenticationUtility} from "@imitate/authentication";
-import {UserDao} from "@imitate/usermanagement";
-import path from "path";
+import {UserManagementService} from "@imitate/usermanagement";
 
 export class Worker {
     private app = express();
@@ -19,8 +18,8 @@ export class Worker {
     private authUtility: AuthenticationUtility;
 
     constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
-        this.authUtility = new AuthenticationUtility();
-        this.passportService = new PassportService(this.logger, new UserDao(this.logger, new SqlDatabaseService(this.logger)), this.authUtility)
+        this.authUtility = new AuthenticationUtility(new UserManagementService());
+        this.passportService = new PassportService(this.logger, new UserManagementService(), this.authUtility)
         this.context = new AppContext(this.app, this.passportService);
     }
 
@@ -30,7 +29,10 @@ export class Worker {
         this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
             let dataSource = await this.databaseService.initDataSource();
-            if (dataSource) this.logger.info("Data Source has been initialized!");
+            if (dataSource) {
+                this.logger.info("Data Source has been initialized!");
+                await this.authUtility.adminPhase();
+            }
             this.bootstrap();
             if (Config.app.HTTPS) {
                 this.express_server = https.createServer({

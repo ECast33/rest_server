@@ -7,6 +7,7 @@ export class AuthenticationRoutes extends BaseRouter {
 
     private LOGIN_ENDPOINT: string = this.baseUrl() + 'login';
     private LOGOUT_ENDPOINT: string = this.baseUrl() + 'logout';
+    private IS_LOGGED_IN_ENDPOINT: string = this.baseUrl() + 'isLoggedIn';
 
     constructor(private authenticationController: AuthenticationController,
                 private authenticationValidator: AuthenticationValidator,
@@ -18,6 +19,8 @@ export class AuthenticationRoutes extends BaseRouter {
 
         this.router.get(this.LOGOUT_ENDPOINT, this.authenticationUtility.requiresAuth.bind(this.authenticationUtility),
             this.authenticationController.logout.bind(this.authenticationController));
+
+        this.router.get(this.IS_LOGGED_IN_ENDPOINT, this.authenticationController.isLoggedIn.bind(this.authenticationController));
     }
 
 }

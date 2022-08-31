@@ -4,7 +4,7 @@ import {Logger} from "@imitate/logger";
 import {AppDataSource} from "./appDataSource";
 
 export class SqlDatabaseService {
-    // private connectionPool: mysql.Pool = mysql.createPool(Config.database.OPTIONS);
+    private connectionPool: mysql.Pool;
 
     constructor(private logger: Logger) {
     }
@@ -36,19 +36,19 @@ export class SqlDatabaseService {
         });
     }
 
-    // getPool(): mysql.Pool {
-    //     // return this.connectionPool;
-    // }
+    getPool(): mysql.Pool {
+        return this.connectionPool;
+    }
 
-    // query<T>(baseSql: string, args: Array<any>): Promise<T> {
-    //     return new Promise<T>((resolve, reject) => {
-    //         this.getPool().query(baseSql, args, (err, rows) => {
-    //             if (err) {
-    //                 this.logger.error('Error in db query', err);
-    //                 reject(new Error(err.message));
-    //             } else
-    //                 resolve(rows);
-    //         });
-    //     });
-    // }
+    query<T>(baseSql: string, args: Array<any>): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
+            this.getPool().query(baseSql, args, (err, rows) => {
+                if (err) {
+                    this.logger.error('Error in db query', err);
+                    reject(new Error(err.message));
+                } else
+                    resolve(rows);
+            });
+        });
+    }
 }
