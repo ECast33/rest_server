@@ -1,5 +1,4 @@
 import * as mysql from 'mysql';
-import * as Config from 'app-config';
 import {Logger} from "@imitate/logger";
 import {AppDataSource} from "./appDataSource";
 

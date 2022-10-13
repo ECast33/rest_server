@@ -1,17 +1,19 @@
 {
-  "spec": "./packages/**/__tests__/*.ts",
+  "spec": "./packages/**/__tests__/*.spec.ts",
   "require": "ts-node/register",
   "extension": [
     "ts"
   ],
-  "inline-diffs ": true,
+  "inline-diffs ": false,
   "full-trace": true,
-  "recursive": true,
+  "recursive": false,
   "diff": true,
   "exit": true,
-  "slow": 300,
+  "slow": 75,
   "retries": 3,
-  "timeout": 0,
+  "timeout": 2000,
+  "package": "./package.json",
+  "reporter": "spec",
   "ignore": [
     "node_modules",
     "dist"

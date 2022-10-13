@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="integration" type="mocha-javascript-test-runner">
+    <node-interpreter>project</node-interpreter>
+    <node-options />
+    <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$</working-directory>
+    <pass-parent-env>true</pass-parent-env>
+    <envs>
+      <env name="NODE_CONFIG_DIR" value="./packages/server/config" />
+      <env name="NODE_ENV" value="standard" />
+      <env name="TS_NODE_PROJECT" value="tsconfig.json" />
+    </envs>
+    <ui>bdd</ui>
+    <extra-mocha-options>--config mocharc.json</extra-mocha-options>
+    <test-kind>PATTERN</test-kind>
+    <test-pattern>./packages/**/__tests__/*.spec.ts</test-pattern>
+    <method v="2" />
+  </configuration>
+</component>

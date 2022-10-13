@@ -5,10 +5,11 @@ import * as bcrypt from 'bcrypt';
 import {ACCESS_LEVELS, User, UserManagementService} from "@imitate/usermanagement";
 import {IGetUserAuthInfoRequest} from "../../../../@types/global";
 import moment from 'moment';
+import {Logger} from "@imitate/logger";
 
 export class AuthenticationUtility {
 
-    constructor(private userManagementService: UserManagementService) {
+    constructor(private logger: Logger, private userManagementService: UserManagementService) {
     }
 
     sanitizeUserData(user: User): User {
@@ -54,7 +55,6 @@ export class AuthenticationUtility {
     async adminPhase(): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             try {
-                // TODO: inject DAO
                 let success = false;
                 let root = await this.userManagementService.getByUsername('root');
                 let admin = await this.userManagementService.getByUsername('admin');
@@ -144,8 +144,9 @@ export class AuthenticationUtility {
                     success = (adminSuccess !== null);
                 } else if (root && admin) {
                     success = true;
+                    this.logger.info("Admin phase complete");
+                    resolve(success);
                 }
-                resolve(success);
             } catch (error) {
                 reject(error);
             }

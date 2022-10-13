@@ -30,7 +30,7 @@ export class AppContext {
         this.logger = new Logger();
         this.morganProvider = new MorganProvider(this.app);
         this.serverUtilityService = new ServerUtilityService(this.logger);
-        this.authenticationUtility = new AuthenticationUtility(new UserManagementService());
+        this.authenticationUtility = new AuthenticationUtility(this.logger, new UserManagementService());
     }
 
     public registerMiddleware() {
@@ -46,11 +46,17 @@ export class AppContext {
     }
 
     public registerRoutes() {
-        this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger, this.serverUtilityService, this.authenticationUtility),
-            new AuthenticationValidator(), this.authenticationUtility).router);
+        return new Promise((resolve, reject) => {
+            this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger, this.serverUtilityService, this.authenticationUtility),
+                new AuthenticationValidator(), this.authenticationUtility).router);
 
-        this.app.use(new UserManagementRoutes(new UserManagementController(this.logger, this.serverUtilityService, new UserManagementService()),
-            new UserManagementValidator(), this.authenticationUtility).router);
+            this.app.use(new UserManagementRoutes(new UserManagementController(this.logger, this.serverUtilityService, new UserManagementService()),
+                new UserManagementValidator(), this.authenticationUtility).router);
+            
+            resolve(true);
+        });
+
+
     }
 
 }

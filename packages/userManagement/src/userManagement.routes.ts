@@ -1,19 +1,22 @@
-import {BaseRouter} from "@imitate/server";
 import {UserManagementValidator} from "./userManagementValidator";
 import {UserManagementController} from "./userManagementController";
 import {AuthenticationUtility} from "@imitate/authentication";
+import {BaseRouter} from "@imitate/server";
+import * as Config from 'app-config';
+import {Router} from "express";
 
-export class UserManagementRoutes extends BaseRouter {
-    private ADD_NEW_USER_ENDPOINT: string = this.baseUrl() + 'add-user';
-    private UPDATE_USER_ENDPOINT: string = this.baseUrl() + 'update-user';
-    private GET_USER_ENDPOINT: string = this.baseUrl() + 'get-user';
-    private DEACTIVATE_USER_ENDPOINT: string = this.baseUrl() + 'deactivateUser';
+export class UserManagementRoutes {
+    private ADD_NEW_USER_ENDPOINT: string = Config.app.API_BASE_ROUTE + 'add-user';
+    // private UPDATE_USER_ENDPOINT: string = this.baseUrl() + 'update-user';
+    // private GET_USER_ENDPOINT: string = this.baseUrl() + 'get-user';
+    // private DEACTIVATE_USER_ENDPOINT: string = this.baseUrl() + 'deactivateUser';
+    protected _router: Router;
 
     constructor(private userManagementController: UserManagementController, private userManagementValidator: UserManagementValidator,
                 private _authenticationUtility: AuthenticationUtility) {
-        super();
+        this._router = Router();
         // ROUTES
-        this.router.post(this.ADD_NEW_USER_ENDPOINT, this.userManagementValidator.addNewUser,
+        this._router.post(this.ADD_NEW_USER_ENDPOINT, this.userManagementValidator.addNewUser,
             this.userManagementController.addNewUser.bind(this.userManagementController));
 
         // this.router.get(this.GET_USER_ENDPOINT, this.userManagementValidator.getUser,
@@ -24,5 +27,9 @@ export class UserManagementRoutes extends BaseRouter {
         //
         // this.router.post(this.DEACTIVATE_USER_ENDPOINT, this.userManagementValidator.deactivateUser,
         //     this.userManagementController.deactivateUser.bind(this.userManagementController));
+    }
+
+    get router(): Router {
+        return this._router;
     }
 }

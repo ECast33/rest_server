@@ -13,3 +13,4 @@ export * from "./services/appDataSource";
 export * from "./services/cors.service";
 export * from "./services/serverUtility.service";
 export * from "./services/sqlDatabase.service";
+export * from "./services/testRunner.service";
