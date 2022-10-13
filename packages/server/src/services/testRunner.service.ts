@@ -20,10 +20,8 @@ export namespace TestRunnerService {
                             setTimeout(() => {
                                 resolve(server);
                             }, 1000); // timeout  to wait for server on  tests find why it doesn't wait on its own.
-
                         }
                     });
-
                 }
             } catch (e) {
                 reject(e);

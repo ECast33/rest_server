@@ -54,7 +54,7 @@ export class AuthenticationController {
                 if (err) {
                     throw err;
                 } else {
-                    this.serverUtilityService.handleSuccess(undefined, res);
+                    this.serverUtilityService.handleSuccess(true, res);
                 }
             });
 

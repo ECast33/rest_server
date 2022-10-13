@@ -10,7 +10,7 @@
   "diff": true,
   "exit": true,
   "slow": 75,
-  "retries": 3,
+  "retries": 0,
   "timeout": 2000,
   "package": "./package.json",
   "reporter": "spec",
