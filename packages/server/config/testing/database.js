@@ -2,7 +2,7 @@ module.exports = {
     OPTIONS: {
         connectionLimit: 1,
         host: 'localhost',
-        database: 'user_auth',
+        database: 'user_auth_test',
         user: 'imitate',
         password: 'iM!t@t3De$iGn!n7Eractiv3',
         createDatabaseTable: true,

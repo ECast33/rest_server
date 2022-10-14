@@ -28,13 +28,12 @@ export class Worker {
     async start() {
         // START THE SERVER SEQUENCE
         // =============================================================================
-        // this.logger.info('Starting Server Process...');
         return new Promise(async (resolve, reject) => {
             this.logger.info('Starting Server Process...');
             let dataSource = await this.databaseService.initDataSource();
             if (dataSource) {
                 this.logger.info("Data Source has been initialized!");
-                await this.authUtility.adminPhase();
+                const admin = await this.authUtility.adminPhase();
             }
             await this.bootstrap();
             if (Config.app.HTTPS) {

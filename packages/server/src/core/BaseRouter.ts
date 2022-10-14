@@ -1,11 +1,10 @@
 import {Router} from "express";
 import Config from "app-config";
-import {CoreRoutes} from "./interfaces/IcoreRoutes";
 
-export class BaseRouter {
+export abstract class BaseRouter {
     protected _router: Router;
 
-    constructor() {
+    protected constructor() {
         this._router = Router();
     }
 

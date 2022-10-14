@@ -1,4 +1,4 @@
-import {AppDataSource} from "@imitate/server";
+import {getDataSource} from "@imitate/server";
 import {IUser, User} from "../entities/user.entity";
 
 export class UserManagementService {
@@ -7,7 +7,7 @@ export class UserManagementService {
 
     async createNewUser(user: IUser) {
         try {
-            const userRepository = AppDataSource.getRepository(User);
+            const userRepository = getDataSource().getRepository(User);
             return await userRepository.save(new User(user));
         } catch (error) {
             throw error;
@@ -16,7 +16,7 @@ export class UserManagementService {
 
     async getUserById(id: number) {
         try {
-            const userRepository = AppDataSource.getRepository(User);
+            const userRepository = getDataSource().getRepository(User);
             return await userRepository.findOneBy({
                 id: id
             });
@@ -27,7 +27,7 @@ export class UserManagementService {
 
     async getByUsername(username: string) {
         try {
-            const userRepository = AppDataSource.getRepository(User);
+            const userRepository = getDataSource().getRepository(User);
             const user = await userRepository.findOneBy({
                 username: username
             });

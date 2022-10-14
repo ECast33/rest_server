@@ -5,7 +5,7 @@
     "host": "localhost",
     "user": "root",
     "password": "Design!123",
-    "database": "imitate_dev",
+    "database": "user_auth",
     "multipleStatements": true
   },
   "docker": {
@@ -13,7 +13,7 @@
     "host": "MYSQL1",
     "user": "root",
     "password": "Design!123",
-    "database": "imitate",
+    "database": "user_auth",
     "multipleStatements": true
   },
   "test": {
@@ -21,7 +21,7 @@
     "host": "localhost",
     "user": "root",
     "password": "Design!123",
-    "database": "imitate_test",
+    "database": "user_auth_test",
     "multipleStatements": true
   }
 }

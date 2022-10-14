@@ -98,6 +98,7 @@ export class AuthenticationUtility {
                         time_in_app: 0
                     }));
                     success = (adminSuccess !== null && rootSuccess !== null);
+                    resolve(success);
                 } else if (!root) {
                     let password = this.generateHash(Config.authentication.DEFAULT_ROOT_PASSWORD);
 
@@ -120,6 +121,7 @@ export class AuthenticationUtility {
                         time_in_app: 0
                     }));
                     success = (rootSuccess !== null);
+                    resolve(success);
                 } else if (!admin) {
                     let password = this.generateHash(Config.authentication.DEFAULT_ROOT_PASSWORD);
                     let adminSuccess = await this.userManagementService.createNewUser(new User({
@@ -142,6 +144,7 @@ export class AuthenticationUtility {
 
                     }));
                     success = (adminSuccess !== null);
+                    resolve(success);
                 } else if (root && admin) {
                     success = true;
                     this.logger.info("Admin phase complete");

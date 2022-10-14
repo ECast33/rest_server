@@ -2,7 +2,7 @@ import * as Config from 'app-config';
 import {SqlDatabaseService} from "./sqlDatabase.service";
 import {Logger} from "@imitate/logger";
 import {Server} from "../server";
-import {AppDataSource} from "./appDataSource";
+import {getDataSource} from "./appDataSource";
 
 export namespace TestRunnerService {
     export const SERVER_ENDPOINT = 'http://localhost:' + Config.app.PORT + Config.app.API_BASE_ROUTE;
@@ -14,7 +14,7 @@ export namespace TestRunnerService {
         return new Promise(async (resolve, reject) => {
             try {
                 if (!initialized) {
-                    // const db = AppDataSource.synchronize();
+                    // const db = getDataSource().synchronize();
                     new Server(new Logger(), new SqlDatabaseService(new Logger())).start().then((server) => {
                         if (server) {
                             setTimeout(() => {

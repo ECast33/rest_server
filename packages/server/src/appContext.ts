@@ -24,13 +24,20 @@ export class AppContext {
     private morganProvider: MorganProvider;
     private serverUtilityService: ServerUtilityService;
     private authenticationUtility: AuthenticationUtility;
+    private userManagementRoutes: UserManagementRoutes;
+    private userManagementService: UserManagementService;
 
     constructor(private app: Express, private passportService: PassportService) {
         // instantiate needed dependencies
         this.logger = new Logger();
         this.morganProvider = new MorganProvider(this.app);
         this.serverUtilityService = new ServerUtilityService(this.logger);
-        this.authenticationUtility = new AuthenticationUtility(this.logger, new UserManagementService());
+        this.userManagementService = new UserManagementService();
+        this.authenticationUtility = new AuthenticationUtility(this.logger, this.userManagementService);
+
+
+        this.userManagementRoutes = new UserManagementRoutes(new UserManagementController(this.logger, this.serverUtilityService, this.userManagementService),
+            new UserManagementValidator(), this.authenticationUtility);
     }
 
     public registerMiddleware() {
@@ -50,9 +57,8 @@ export class AppContext {
             this.app.use(new AuthenticationRoutes(new AuthenticationController(this.logger, this.serverUtilityService, this.authenticationUtility),
                 new AuthenticationValidator(), this.authenticationUtility).router);
 
-            this.app.use(new UserManagementRoutes(new UserManagementController(this.logger, this.serverUtilityService, new UserManagementService()),
-                new UserManagementValidator(), this.authenticationUtility).router);
-            
+            this.app.use(this.userManagementRoutes.router);
+
             resolve(true);
         });
 

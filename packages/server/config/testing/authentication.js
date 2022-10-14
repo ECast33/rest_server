@@ -2,7 +2,7 @@ module.exports = {
     initialize: function (MySQLStore) {
         return {
             secret: '#!D351Gn_1nT3rAct1v3_iM!t@t3',
-            key: 'imitate.sid',
+            key: 'design.sid',
             resave: false,
             rolling: true, // Expiration starts counting from the last request
             saveUninitialized: false,
@@ -12,7 +12,7 @@ module.exports = {
                 port: 3306,
                 user: 'root',
                 password: 'Design!123',
-                database: 'user_auth'
+                database: 'user_auth_test'
             }),
             cookie: {
                 maxAge: 86400000, // 24 hours

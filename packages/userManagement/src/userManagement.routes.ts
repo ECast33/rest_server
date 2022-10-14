@@ -1,12 +1,11 @@
 import {UserManagementValidator} from "./userManagementValidator";
 import {UserManagementController} from "./userManagementController";
 import {AuthenticationUtility} from "@imitate/authentication";
-import {BaseRouter} from "@imitate/server";
 import * as Config from 'app-config';
 import {Router} from "express";
 
 export class UserManagementRoutes {
-    private ADD_NEW_USER_ENDPOINT: string = Config.app.API_BASE_ROUTE + 'add-user';
+    private ADD_NEW_USER_ENDPOINT: string = this.baseUrl + 'add-user';
     // private UPDATE_USER_ENDPOINT: string = this.baseUrl() + 'update-user';
     // private GET_USER_ENDPOINT: string = this.baseUrl() + 'get-user';
     // private DEACTIVATE_USER_ENDPOINT: string = this.baseUrl() + 'deactivateUser';
@@ -14,6 +13,7 @@ export class UserManagementRoutes {
 
     constructor(private userManagementController: UserManagementController, private userManagementValidator: UserManagementValidator,
                 private _authenticationUtility: AuthenticationUtility) {
+
         this._router = Router();
         // ROUTES
         this._router.post(this.ADD_NEW_USER_ENDPOINT, this.userManagementValidator.addNewUser,
@@ -31,5 +31,9 @@ export class UserManagementRoutes {
 
     get router(): Router {
         return this._router;
+    }
+
+    get baseUrl() {
+        return `${Config.app.API_BASE_ROUTE}`
     }
 }

@@ -7,7 +7,7 @@
     <pass-parent-env>true</pass-parent-env>
     <envs>
       <env name="NODE_CONFIG_DIR" value="./packages/server/config" />
-      <env name="NODE_ENV" value="standard" />
+      <env name="NODE_ENV" value="testing" />
       <env name="TS_NODE_PROJECT" value="tsconfig.json" />
     </envs>
     <ui>bdd</ui>
