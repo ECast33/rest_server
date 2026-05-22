@@ -1,7 +1,10 @@
+
+
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm"
 
 export type IUser = {
     id: number;
+    sub: string;
     username: string;
     password: string;
     first_name: string;
@@ -31,6 +34,9 @@ export class User implements IUser {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({nullable: true, unique: true})
+    sub: string;
 
     @Column()
     username: string;

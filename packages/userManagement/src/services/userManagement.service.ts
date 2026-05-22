@@ -37,4 +37,23 @@ export class UserManagementService {
         }
     }
 
+    async getUserBySub(sub: string) {
+        try {
+            const userRepository = getDataSource().getRepository(User);
+            return await userRepository.findOneBy({ sub });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateUserBySub(sub: string, updates: Partial<IUser>) {
+        try {
+            const userRepository = getDataSource().getRepository(User);
+            await userRepository.update({sub}, updates as any);
+            return await userRepository.findOneBy({sub});
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }

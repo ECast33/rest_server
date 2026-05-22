@@ -1,11 +1,13 @@
 import * as Config from 'app-config';
-import {Request, Response} from 'express';
+import {Request, Response, NextFunction} from 'express';
 import {StatusCodes} from "http-status-codes";
 import * as bcrypt from 'bcrypt';
 import {ACCESS_LEVELS, User, UserManagementService} from "@imitate/usermanagement";
 import {IGetUserAuthInfoRequest} from "../../../../@types/global";
 import moment from 'moment';
 import {Logger} from "@imitate/logger";
+import passport from 'passport';
+import {JWT_STRATEGY_NAME} from "../strategies/jwt.strategy";
 
 export class AuthenticationUtility {
 
@@ -17,23 +19,38 @@ export class AuthenticationUtility {
         return user;
     }
 
-    // Generating a hash
     generateHash(password: string): string {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
     }
 
-    // Check for valid password
     validPassword(attempt: string, password: string): boolean {
         return bcrypt.compareSync(attempt, password);
     }
 
-    requiresAuth(req: Request, res: Response, next: any) {
-        if (req.isAuthenticated())
-            this.requiresActiveAccount((req as IGetUserAuthInfoRequest), res, next);
-        else {
-            res.status(StatusCodes.UNAUTHORIZED);
-            res.end();
-        }
+    /**
+     * requiresAuth — supports both JWT Bearer tokens (primary) and legacy sessions (fallback).
+     * Protected routes should use this middleware guard.
+     */
+    requiresAuth(req: Request, res: Response, next: NextFunction) {
+        // First try JWT Bearer token strategy
+        passport.authenticate(JWT_STRATEGY_NAME, {session: false}, (err, user) => {
+            if (err) {
+                this.logger.error('requiresAuth JWT error', err);
+                res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
+                return;
+            }
+            if (user) {
+                (req as unknown as IGetUserAuthInfoRequest).user = user;
+                this.requiresActiveAccount(req as unknown as IGetUserAuthInfoRequest, res, next);
+                return;
+            }
+            // Fallback: session-based auth (legacy / admin console)
+            if (req.isAuthenticated()) {
+                this.requiresActiveAccount((req as unknown as IGetUserAuthInfoRequest), res, next);
+            } else {
+                res.status(StatusCodes.UNAUTHORIZED).end();
+            }
+        })(req, res, next);
     }
 
     requiresActiveAccount(req: IGetUserAuthInfoRequest, res: Response, next: any) {
@@ -41,13 +58,11 @@ export class AuthenticationUtility {
             next();
         } else {
             if (req.session) {
-                req.session.destroy((err) => {
-                    res.status(StatusCodes.FORBIDDEN);
-                    res.end();
+                req.session.destroy(() => {
+                    res.status(StatusCodes.FORBIDDEN).end();
                 });
             } else {
-                res.status(StatusCodes.FORBIDDEN);
-                res.end();
+                res.status(StatusCodes.FORBIDDEN).end();
             }
         }
     }
@@ -68,6 +83,7 @@ export class AuthenticationUtility {
                         email: null,
                         first_name: 'root',
                         id: null,
+                        sub: null,
                         is_enabled: true,
                         job_title: 'Root User',
                         last_login: null,
@@ -87,6 +103,7 @@ export class AuthenticationUtility {
                         email: null,
                         first_name: 'admin',
                         id: null,
+                        sub: null,
                         is_enabled: true,
                         job_title: 'Admin',
                         last_login: null,
@@ -110,6 +127,7 @@ export class AuthenticationUtility {
                         email: null,
                         first_name: 'root',
                         id: null,
+                        sub: null,
                         is_enabled: true,
                         job_title: 'Root User',
                         last_login: null,
@@ -132,6 +150,7 @@ export class AuthenticationUtility {
                         email: null,
                         first_name: 'admin',
                         id: null,
+                        sub: null,
                         is_enabled: true,
                         job_title: 'Admin',
                         last_login: null,

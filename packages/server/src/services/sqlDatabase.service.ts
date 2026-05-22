@@ -1,4 +1,4 @@
-import * as mysql from 'mysql';
+import * as mysql from 'mysql2';
 import {Logger} from "@imitate/logger";
 import {getDataSource} from "./appDataSource";
 
@@ -46,7 +46,7 @@ export class SqlDatabaseService {
                     this.logger.error('Error in db query', err);
                     reject(new Error(err.message));
                 } else
-                    resolve(rows);
+                    resolve(rows as T);
             });
         });
     }

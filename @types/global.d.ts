@@ -4,9 +4,9 @@ import {Request} from 'express';
 declare module 'app-config' {
     let app: AppConfig;
     let authentication: AuthenticationConfig;
+    let oidc: OidcConfig;
     // let options: OptionsConfig;
     let database: DatabaseConfig;
-
 }
 
 interface AppConfig {
@@ -33,7 +33,29 @@ interface AuthenticationConfig {
     SSH_HOST_APP_PASSWORD: string
     DEFAULT_ROOT_PASSWORD: string;
     DEFAULT_ADMIN_PASSWORD: string;
+}
 
+interface OidcConfig {
+    ISSUER: string;
+    CLIENT_ID: string;
+    CLIENT_SECRET: string;
+    CALLBACK_URL: string;
+    SCOPE: string;
+    JWT_SECRET: string;
+    JWT_EXPIRY: string;
+    REFRESH_TOKEN_SECRET: string;
+    REFRESH_TOKEN_EXPIRY: string;
+    FRONTEND_CALLBACK_URL: string;
+}
+
+interface JwtPayload {
+    sub: string;
+    id: number;
+    username: string;
+    access_level: number;
+    organization_id: number;
+    iat?: number;
+    exp?: number;
 }
 
 interface DatabaseConfig {
