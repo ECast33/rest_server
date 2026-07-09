@@ -10,14 +10,14 @@ import {
     AuthenticationRoutes,
     AuthenticationController,
     AuthenticationValidator, AuthenticationUtility, TokenService
-} from "@imitate/authentication";
-import {Logger, MorganProvider} from "@imitate/logger";
+} from "@auth-app/authentication";
+import {Logger, MorganProvider} from "@auth-app/logger";
 import {ServerUtilityService} from "./services/serverUtility.service";
 import {CorsService} from "./services/cors.service";
 import {
     UserDao,
     UserManagementService
-} from "@imitate/usermanagement";
+} from "@auth-app/usermanagement";
 
 const MySQLStore = MySQLStoreFactory(express_session);
 

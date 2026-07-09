@@ -9,7 +9,7 @@ import {UserProfile} from '../../core/models/auth.model';
   template: `
     <div class="home-container">
       <header>
-        <div class="logo">IMITATE</div>
+        <div class="logo">AUTH-APP</div>
         <button class="logout-btn" (click)="logout()">Sign Out</button>
       </header>
 

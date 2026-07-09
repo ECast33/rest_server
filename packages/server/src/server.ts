@@ -6,7 +6,7 @@ import * as Config from 'app-config';
 import {Worker} from './worker';
 import os from "os";
 import cluster from "cluster";
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 
 

@@ -1,5 +1,5 @@
 import * as mysql from 'mysql2';
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {getDataSource} from "./appDataSource";
 
 export class SqlDatabaseService {

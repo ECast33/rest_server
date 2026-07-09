@@ -1,6 +1,6 @@
 import {Response} from 'express';
 import {ErrorResponse} from "../core/errorResponse";
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {StatusCodes} from "http-status-codes";
 import {BaseResponse} from "../core/baseResponse";
 

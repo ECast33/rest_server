@@ -1,5 +1,5 @@
 {
-  "name": "@imitate/logger",
+  "name": "@auth-app/logger",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,

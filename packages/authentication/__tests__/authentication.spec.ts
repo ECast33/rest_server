@@ -1,8 +1,8 @@
 //------------------------------------------------------------
 // Boilerplate
 //------------------------------------------------------------
-import {TestRunnerService} from "@imitate/server";
-import {Logger} from "@imitate/logger";
+import {TestRunnerService} from "@auth-app/server";
+import {Logger} from "@auth-app/logger";
 import * as HttpStatusCodes from 'http-status-codes';
 import {equal, fail} from 'assert';
 import chaiHttp = require('chai-http');

@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import * as Config from 'app-config';
-import {User} from '@imitate/usermanagement';
+import {User} from '@auth-app/usermanagement';
 import {JwtPayload} from './jwt-payload.interface';
 
 export class TokenService {

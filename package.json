@@ -1,5 +1,5 @@
 {
-  "name": "imitate",
+  "name": "auth-app",
   "private": true,
   "workspaces": [
     "packages/*"

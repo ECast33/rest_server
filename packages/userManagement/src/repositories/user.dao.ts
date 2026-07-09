@@ -1,5 +1,5 @@
-import {getDataSource} from "@imitate/server";
-import {Logger} from "@imitate/logger";
+import {getDataSource} from "@auth-app/server";
+import {Logger} from "@auth-app/logger";
 import {Repository} from "typeorm";
 import {IUser, User} from "../entities/user.entity";
 

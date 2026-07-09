@@ -2,6 +2,6 @@
 
 // const usermanagement = require('..');
 
-describe('@imitate/userManagement', () => {
+describe('@auth-app/userManagement', () => {
     it('needs tests');
 });

@@ -1,7 +1,7 @@
 import {Strategy as JwtStrategy, ExtractJwt, StrategyOptions} from 'passport-jwt';
 import * as Config from 'app-config';
-import {UserManagementService} from '@imitate/usermanagement';
-import {Logger} from '@imitate/logger';
+import {UserManagementService} from '@auth-app/usermanagement';
+import {Logger} from '@auth-app/logger';
 import {JwtPayload} from '../services/jwt-payload.interface';
 
 export function buildJwtStrategy(userManagementService: UserManagementService, logger: Logger) {

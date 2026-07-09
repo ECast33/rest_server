@@ -2,10 +2,10 @@ import * as Config from 'app-config';
 import {Request, Response, NextFunction} from 'express';
 import {StatusCodes} from "http-status-codes";
 import * as bcrypt from 'bcrypt';
-import {ACCESS_LEVELS, User, UserManagementService} from "@imitate/usermanagement";
+import {ACCESS_LEVELS, User, UserManagementService} from "@auth-app/usermanagement";
 import {IGetUserAuthInfoRequest} from "../../../../@types/global";
 import moment from 'moment';
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import passport from 'passport';
 import {JWT_STRATEGY_NAME} from "../strategies/jwt.strategy";
 

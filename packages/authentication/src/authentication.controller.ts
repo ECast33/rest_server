@@ -1,10 +1,10 @@
 import {Request, Response} from 'express';
 import passport from 'passport';
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {StatusCodes} from "http-status-codes";
 import {authentication, oidc} from "app-config";
-import {IUser, User, UserManagementService} from "@imitate/usermanagement";
-import {ServerUtilityService} from "@imitate/server";
+import {IUser, User, UserManagementService} from "@auth-app/usermanagement";
+import {ServerUtilityService} from "@auth-app/server";
 import {AuthenticationUtility} from "./services/authentication.utility";
 import {TokenService} from "./services/token.service";
 import {buildOidcClient, oidcLoginHandler, oidcCallbackHandler} from "./strategies/oidc.strategy";

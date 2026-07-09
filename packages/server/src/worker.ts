@@ -3,11 +3,11 @@ import express from 'express';
 import * as Config from 'app-config';
 import https from "https";
 import fs from "fs";
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {AppContext} from "./appContext";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
-import {PassportService, AuthenticationUtility} from "@imitate/authentication";
-import {UserDao, UserManagementService} from "@imitate/usermanagement";
+import {PassportService, AuthenticationUtility} from "@auth-app/authentication";
+import {UserDao, UserManagementService} from "@auth-app/usermanagement";
 
 export class Worker {
     private app = express();

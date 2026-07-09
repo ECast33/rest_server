@@ -1,4 +1,4 @@
-import {IUser, User} from "@imitate/usermanagement";
+import {IUser, User} from "@auth-app/usermanagement";
 import {Request} from 'express';
 
 declare module 'app-config' {

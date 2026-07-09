@@ -1,6 +1,6 @@
 import * as Config from 'app-config';
 import {SqlDatabaseService} from "./sqlDatabase.service";
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {Server} from "../server";
 import {getDataSource} from "./appDataSource";
 

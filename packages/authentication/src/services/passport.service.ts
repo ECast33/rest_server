@@ -1,10 +1,10 @@
 import {AuthenticationUtility} from "./authentication.utility";
 
 let LocalStrategy = require('passport-local').Strategy;
-import {Logger} from "@imitate/logger";
+import {Logger} from "@auth-app/logger";
 import {PassportStatic} from "passport";
 import {authentication} from "app-config";
-import {User, UserManagementService} from "@imitate/usermanagement";
+import {User, UserManagementService} from "@auth-app/usermanagement";
 import {buildJwtStrategy, JWT_STRATEGY_NAME} from "../strategies/jwt.strategy";
 
 

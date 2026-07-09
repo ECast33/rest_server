@@ -1,7 +1,7 @@
 import {Issuer, generators, CallbackParamsType} from 'openid-client';
 import * as Config from 'app-config';
-import {ACCESS_LEVELS, IUser, User, UserManagementService} from '@imitate/usermanagement';
-import {Logger} from '@imitate/logger';
+import {ACCESS_LEVELS, IUser, User, UserManagementService} from '@auth-app/usermanagement';
+import {Logger} from '@auth-app/logger';
 import moment from 'moment';
 import {Request, Response} from 'express';
 
