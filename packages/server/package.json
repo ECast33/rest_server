@@ -13,6 +13,9 @@
   "files": [
     "./src"
   ],
+  "dependencies": {
+    "dotenv": "^16.6.1"
+  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "yarn run clean && yarn run compile",

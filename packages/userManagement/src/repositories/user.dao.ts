@@ -1,44 +1,60 @@
-import {SqlDatabaseService} from "@imitate/server";
+import {getDataSource} from "@imitate/server";
 import {Logger} from "@imitate/logger";
-import _ from "lodash";
+import {Repository} from "typeorm";
 import {IUser, User} from "../entities/user.entity";
 
 export class UserDao {
-    constructor(private logger: Logger, private sqlDatabaseService: SqlDatabaseService) {
+    constructor(private logger: Logger) {
     }
 
-    async getUserById(id: number): Promise<User> {
-        let baseSql = 'SELECT * FROM users WHERE id = ?';
-        let args = [id];
-        try {
-            let rows = await this.sqlDatabaseService.query<Array<IUser>>(baseSql, args);
-            if (rows.length) {
-                const user = <IUser>_.first(rows);
-                // return new User(user);
-            } else {
-                return undefined;
-            }
+    // Single shared accessor for the TypeORM repository — every CRUD method below goes through this.
+    private getRepository(): Repository<User> {
+        return getDataSource().getRepository(User);
+    }
 
+    async createNewUser(user: IUser): Promise<User> {
+        try {
+            return await this.getRepository().save(new User(user));
         } catch (error) {
-            this.logger.error('Error getting user by id', error);
-            throw (error);
+            this.logger.error('Error creating new user', error);
+            throw error;
         }
     }
 
-    async getByUsername(username: string): Promise<User> {
-        let baseSql = 'SELECT * FROM users WHERE username = ?';
-        let args = [username];
+    async getUserById(id: number): Promise<User | null> {
         try {
-            let rows = await this.sqlDatabaseService.query<any>(baseSql, args);
-            if (rows.length) {
-                const user = <IUser>_.first(rows);
-                // return new User(user);
-            } else {
-                return undefined;
-            }
+            return await this.getRepository().findOneBy({id});
+        } catch (error) {
+            this.logger.error('Error getting user by id', error);
+            throw error;
+        }
+    }
+
+    async getByUsername(username: string): Promise<User | null> {
+        try {
+            return await this.getRepository().findOneBy({username});
         } catch (error) {
             this.logger.error('Error getting user by username', error);
-            throw(error);
+            throw error;
+        }
+    }
+
+    async getUserBySub(sub: string): Promise<User | null> {
+        try {
+            return await this.getRepository().findOneBy({sub});
+        } catch (error) {
+            this.logger.error('Error getting user by sub', error);
+            throw error;
+        }
+    }
+
+    async updateUserBySub(sub: string, updates: Partial<IUser>): Promise<User | null> {
+        try {
+            await this.getRepository().update({sub}, updates as any);
+            return await this.getRepository().findOneBy({sub});
+        } catch (error) {
+            this.logger.error('Error updating user by sub', error);
+            throw error;
         }
     }
 }

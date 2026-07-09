@@ -30,7 +30,7 @@ import {UserProfile} from '../../core/models/auth.model';
               <span class="stat-value">{{ profile.logins }}</span>
             </div>
             <div class="stat-card">
-              <span class="stat-label">Organisation</span>
+              <span class="stat-label">Organization</span>
               <span class="stat-value">{{ profile.organization_id }}</span>
             </div>
             <div class="stat-card">

@@ -1,59 +1,28 @@
-import {getDataSource} from "@imitate/server";
-import {IUser, User} from "../entities/user.entity";
+import {IUser} from "../entities/user.entity";
+import {UserDao} from "../repositories/user.dao";
 
 export class UserManagementService {
-    constructor() {
+    constructor(private userDao: UserDao) {
     }
 
     async createNewUser(user: IUser) {
-        try {
-            const userRepository = getDataSource().getRepository(User);
-            return await userRepository.save(new User(user));
-        } catch (error) {
-            throw error;
-        }
+        return this.userDao.createNewUser(user);
     }
 
     async getUserById(id: number) {
-        try {
-            const userRepository = getDataSource().getRepository(User);
-            return await userRepository.findOneBy({
-                id: id
-            });
-        } catch (error) {
-            throw error;
-        }
+        return this.userDao.getUserById(id);
     }
 
     async getByUsername(username: string) {
-        try {
-            const userRepository = getDataSource().getRepository(User);
-            const user = await userRepository.findOneBy({
-                username: username
-            });
-            if (user) return user;
-        } catch (error) {
-            throw error;
-        }
+        return this.userDao.getByUsername(username);
     }
 
     async getUserBySub(sub: string) {
-        try {
-            const userRepository = getDataSource().getRepository(User);
-            return await userRepository.findOneBy({ sub });
-        } catch (error) {
-            throw error;
-        }
+        return this.userDao.getUserBySub(sub);
     }
 
     async updateUserBySub(sub: string, updates: Partial<IUser>) {
-        try {
-            const userRepository = getDataSource().getRepository(User);
-            await userRepository.update({sub}, updates as any);
-            return await userRepository.findOneBy({sub});
-        } catch (error) {
-            throw error;
-        }
+        return this.userDao.updateUserBySub(sub, updates);
     }
 
 }

@@ -1,4 +1,4 @@
-# auth_gateway (imitate)
+# auth_gateway 
 
 A TypeScript/Node.js **authentication gateway** and backend API server with **Single Sign-On via OpenID Connect (OIDC)** and **JWT-based authentication**. Built as a reusable backend foundation with support for clustering, HTTPS, MySQL persistence, and an Angular 19 SPA frontend.
 

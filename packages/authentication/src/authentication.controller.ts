@@ -114,8 +114,21 @@ export class AuthenticationController {
 
     async logout(req: Request, res: Response) {
         try {
+            // SSO/JWT clients (the primary auth path) never establish a Passport session —
+            // ssoCallback issues JWT tokens directly without calling req.login(). There's
+            // nothing server-side to tear down for them; the client just discards its tokens.
+            // Only fall through to req.logout() for legacy session-authenticated clients.
+            const hasSession = !!(req.session && (req.session as any).passport?.user);
+            if (!hasSession) {
+                this.serverUtilityService.handleSuccess(true, res);
+                return;
+            }
+
             req.logout((err) => {
-                if (err) throw err;
+                if (err) {
+                    this.serverUtilityService.handleRestError('Error logout ', err, res);
+                    return;
+                }
                 this.serverUtilityService.handleSuccess(true, res);
             });
         } catch (error: any) {

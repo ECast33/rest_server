@@ -7,7 +7,7 @@ import {Logger} from "@imitate/logger";
 import {AppContext} from "./appContext";
 import {SqlDatabaseService} from "./services/sqlDatabase.service";
 import {PassportService, AuthenticationUtility} from "@imitate/authentication";
-import {UserManagementService} from "@imitate/usermanagement";
+import {UserDao, UserManagementService} from "@imitate/usermanagement";
 
 export class Worker {
     private app = express();
@@ -19,7 +19,7 @@ export class Worker {
     private readonly userManagementService: UserManagementService;
 
     constructor(public logger: Logger, private databaseService: SqlDatabaseService) {
-        this.userManagementService = new UserManagementService();
+        this.userManagementService = new UserManagementService(new UserDao(this.logger));
         this.authUtility = new AuthenticationUtility(this.logger, this.userManagementService);
         this.passportService = new PassportService(this.logger, this.userManagementService, this.authUtility)
         this.context = new AppContext(this.app, this.passportService);

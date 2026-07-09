@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 import * as Config from 'app-config';
 import {Worker} from './worker';
 import os from "os";

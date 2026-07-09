@@ -14,10 +14,8 @@ import {
 import {Logger, MorganProvider} from "@imitate/logger";
 import {ServerUtilityService} from "./services/serverUtility.service";
 import {
-    UserManagementController,
-    UserManagementRoutes,
-    UserManagementService,
-    UserManagementValidator
+    UserDao,
+    UserManagementService
 } from "@imitate/usermanagement";
 
 const MySQLStore = MySQLStoreFactory(express_session);
@@ -28,22 +26,15 @@ export class AppContext {
     private serverUtilityService: ServerUtilityService;
     private authenticationUtility: AuthenticationUtility;
     private tokenService: TokenService;
-    private userManagementRoutes: UserManagementRoutes;
     private userManagementService: UserManagementService;
 
     constructor(private app: Express, private passportService: PassportService) {
         this.logger = new Logger();
         this.morganProvider = new MorganProvider(this.app);
         this.serverUtilityService = new ServerUtilityService(this.logger);
-        this.userManagementService = new UserManagementService();
+        this.userManagementService = new UserManagementService(new UserDao(this.logger));
         this.authenticationUtility = new AuthenticationUtility(this.logger, this.userManagementService);
         this.tokenService = new TokenService();
-
-        this.userManagementRoutes = new UserManagementRoutes(
-            new UserManagementController(this.logger, this.serverUtilityService, this.userManagementService),
-            new UserManagementValidator(),
-            this.authenticationUtility
-        );
     }
 
     public registerMiddleware() {
@@ -75,8 +66,6 @@ export class AppContext {
                 new AuthenticationValidator(),
                 this.authenticationUtility
             ).router);
-
-            this.app.use(this.userManagementRoutes.router);
 
             resolve(true);
         });

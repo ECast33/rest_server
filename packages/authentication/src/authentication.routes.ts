@@ -1,6 +1,5 @@
 import {AuthenticationController} from "./authentication.controller";
 import {AuthenticationValidator} from "./authentication.validator";
-import {BaseRouter} from "@imitate/server";
 import {AuthenticationUtility} from "./services/authentication.utility";
 import * as Config from 'app-config';
 import {Router} from "express";

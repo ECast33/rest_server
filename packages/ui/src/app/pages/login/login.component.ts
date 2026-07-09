@@ -14,7 +14,7 @@ import {ActivatedRoute} from '@angular/router';
           </svg>
         </div>
         <h1>Sign In</h1>
-        <p class="subtitle">Use your organisation's Single Sign-On to continue</p>
+        <p class="subtitle">Use your organization's Single Sign-On to continue</p>
 
         @if (errorMessage) {
           <div class="error-banner">{{ errorMessage }}</div>
