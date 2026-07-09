@@ -13,6 +13,7 @@ import {
 } from "@imitate/authentication";
 import {Logger, MorganProvider} from "@imitate/logger";
 import {ServerUtilityService} from "./services/serverUtility.service";
+import {CorsService} from "./services/cors.service";
 import {
     UserDao,
     UserManagementService
@@ -27,6 +28,7 @@ export class AppContext {
     private authenticationUtility: AuthenticationUtility;
     private tokenService: TokenService;
     private userManagementService: UserManagementService;
+    private corsService: CorsService;
 
     constructor(private app: Express, private passportService: PassportService) {
         this.logger = new Logger();
@@ -35,6 +37,7 @@ export class AppContext {
         this.userManagementService = new UserManagementService(new UserDao(this.logger));
         this.authenticationUtility = new AuthenticationUtility(this.logger, this.userManagementService);
         this.tokenService = new TokenService();
+        this.corsService = new CorsService();
     }
 
     public registerMiddleware() {
@@ -42,13 +45,7 @@ export class AppContext {
         this.passportService.initialize(passport);
 
         // CORS — allow the Angular dev server and the production SPA origin
-        this.app.use(cors({
-            origin: [
-                'http://localhost:4200',
-                process.env.FRONTEND_ORIGIN || 'http://localhost:4200',
-            ],
-            credentials: true,
-        }));
+        this.app.use(cors(this.corsService.getOptions()));
 
         this.app.use(bodyParser.urlencoded({limit: "1000mb", extended: true, parameterLimit: 50000}));
         this.app.use(bodyParser.json({limit: "1000mb"}));
