@@ -2,7 +2,7 @@ module.exports = {
     // MySQL connection settings — override with environment variables in production
     OPTIONS: {
         connectionLimit: process.env.DB_CONNECTION_LIMIT || 1,
-        host: process.env.DB_HOST || 'localhost',
+        host: process.env.DB_HOST || 'imitate-mysql.mysql.database.azure.com',
         port: process.env.DB_PORT || 3306,
         database: process.env.DB_NAME || 'user_auth',
         user: process.env.DB_USER || 'imitate',

@@ -2,15 +2,15 @@ module.exports = {
     initialize: function (MySQLStore) {
         return {
             secret: process.env.SESSION_SECRET || '#!D351Gn_1nT3rAct1v3_iM!t@t3',
-            key: 'imitate.sid',
+            key: 'user-auth.sid',
             resave: false,
             rolling: true, // Expiration starts counting from the last request
             saveUninitialized: false,
             unset: 'destroy',
             store: new MySQLStore({
-                host: process.env.DB_HOST || 'localhost',
+                host: process.env.DB_HOST || 'imitate-mysql.mysql.database.azure.com',
                 port: process.env.DB_PORT || 3306,
-                user: process.env.DB_ROOT_USER || 'root',
+                user: process.env.DB_ROOT_USER || 'imitate',
                 password: process.env.DB_ROOT_PASSWORD || 'Design!123',
                 database: process.env.DB_NAME || 'user_auth'
             }),

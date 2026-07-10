@@ -16,4 +16,7 @@ module.exports = {
 
     // Where the Angular SPA lives — the callback redirects here with the token
     FRONTEND_CALLBACK_URL: process.env.FRONTEND_CALLBACK_URL || 'http://localhost:4200/auth/callback',
+
+    // Where Keycloak sends the browser back to after RP-initiated logout completes
+    POST_LOGOUT_REDIRECT_URL: process.env.OIDC_POST_LOGOUT_REDIRECT_URL || 'http://localhost:4200/login',
 };

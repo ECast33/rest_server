@@ -1,27 +1,27 @@
 module.exports = {
     OPTIONS: {
-        connectionLimit: 1,
-        host: 'localhost',
+        connectionLimit: process.env.DB_CONNECTION_LIMIT || 1,
+        host: process.env.DB_HOST || 'imitate-mysql.mysql.database.azure.com',
         database: 'user_auth_test',
-        user: 'imitate',
-        password: 'iM!t@t3De$iGn!n7Eractiv3',
+        user: process.env.DB_USER || 'imitate',
+        password: process.env.DB_PASSWORD || 'iM!t@t3De$iGn!n7Eractiv3',
         createDatabaseTable: true,
         multipleStatements: true
     },
     MONGOOSE: {
-        host: "mongodb://localhost:27017",
+        host: process.env.MONGO_HOST || "mongodb://localhost:27017",
         options: {
-            user: 'imitate',
-            pass: 'Design!123Mongo',
-            dbName: 'imitate_orm',
-            authSource: 'imitate_orm',
+            user: process.env.MONGO_USER || 'imitate',
+            pass: process.env.MONGO_PASSWORD || 'Design!123Mongo',
+            dbName: process.env.MONGO_DB_NAME || 'imitate_orm',
+            authSource: process.env.MONGO_AUTH_SOURCE || 'imitate_orm',
             useNewUrlParser: true,
             useUnifiedTopology: true
         },
         rootOptions: {
-            user: 'root',
-            pass: 'Design!123',
-            authSource: 'admin'
+            user: process.env.MONGO_ROOT_USER || 'root',
+            pass: process.env.MONGO_ROOT_PASSWORD || 'Design!123',
+            authSource: process.env.MONGO_ROOT_AUTH_SOURCE || 'admin'
         }
     }
 };

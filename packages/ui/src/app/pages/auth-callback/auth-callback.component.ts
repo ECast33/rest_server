@@ -53,6 +53,7 @@ export class AuthCallbackComponent implements OnInit {
     const accessToken = params.get('accessToken');
     const refreshToken = params.get('refreshToken');
     const expiresIn = params.get('expiresIn');
+    const idToken = params.get('idToken');
     const errorParam = params.get('error');
 
     if (errorParam) {
@@ -62,7 +63,7 @@ export class AuthCallbackComponent implements OnInit {
     }
 
     if (accessToken && refreshToken && expiresIn) {
-      this.auth.handleCallback(accessToken, refreshToken, expiresIn);
+      this.auth.handleCallback(accessToken, refreshToken, expiresIn, idToken ?? undefined);
     } else {
       this.router.navigate(['/login'], {queryParams: {error: 'missing_tokens'}});
     }

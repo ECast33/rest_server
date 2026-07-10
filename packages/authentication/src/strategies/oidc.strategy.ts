@@ -38,6 +38,10 @@ export function oidcLoginHandler(client: any) {
             scope: Config.oidc.SCOPE,
             state,
             nonce,
+            // Force Keycloak to always show the credentials form, ignoring its own
+            // SSO session cookie. Without this, the IdP silently re-authenticates
+            // as whichever user last logged into Keycloak, with no way to switch.
+            prompt: 'login',
         });
 
         res.redirect(redirectUrl);
@@ -108,7 +112,10 @@ export function oidcCallbackHandler(
                 return res.redirect(`${Config.oidc.FRONTEND_CALLBACK_URL}?error=unauthorized`);
             }
 
-            return user;
+            // idToken is handed back to the SPA (alongside the app's own JWTs) so it
+            // can later be presented as id_token_hint on logout — required for a true
+            // RP-initiated logout that also ends the user's Keycloak SSO session.
+            return {user, idToken: tokenSet.id_token};
 
         } catch (error) {
             logger.error('OIDC callback error', error);

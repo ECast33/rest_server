@@ -13,6 +13,7 @@ import {IGetUserAuthInfoRequest} from "../../../@types/global";
 export class AuthenticationController {
     private oidcLoginMiddleware: ((req: Request, res: Response) => void) | null = null;
     private oidcCallbackMiddleware: ((req: Request, res: Response) => Promise<any>) | null = null;
+    private oidcClient: any = null;
 
     constructor(
         private logger: Logger,
@@ -27,6 +28,7 @@ export class AuthenticationController {
     private async initOidc() {
         try {
             const client = await buildOidcClient();
+            this.oidcClient = client;
             this.oidcLoginMiddleware = oidcLoginHandler(client);
             this.oidcCallbackMiddleware = oidcCallbackHandler(client, this.userManagementService, this.logger);
             this.logger.info(`OIDC discovery complete — issuer: ${oidc.ISSUER}, callback: ${oidc.CALLBACK_URL}`);
@@ -52,16 +54,22 @@ export class AuthenticationController {
             return res.redirect(`${oidc.FRONTEND_CALLBACK_URL}?error=sso_unavailable`);
         }
         try {
-            const user = await this.oidcCallbackMiddleware(req, res) as User | null;
-            if (!user) {
+            const result = await this.oidcCallbackMiddleware(req, res) as {user: User; idToken?: string} | null;
+            if (!result) {
                 // oidcCallbackHandler already redirected on error/inactive
                 return;
             }
+            const {user, idToken} = result;
             const tokens = this.tokenService.buildTokenResponse(user);
             const redirectUrl = new URL(oidc.FRONTEND_CALLBACK_URL);
             redirectUrl.searchParams.set('accessToken', tokens.accessToken);
             redirectUrl.searchParams.set('refreshToken', tokens.refreshToken);
             redirectUrl.searchParams.set('expiresIn', tokens.expiresIn);
+            // Handed to the SPA so it can present it back as id_token_hint on logout,
+            // enabling a true RP-initiated logout that also ends the Keycloak SSO session.
+            if (idToken) {
+                redirectUrl.searchParams.set('idToken', idToken);
+            }
             return res.redirect(redirectUrl.toString());
         } catch (error: any) {
             this.logger.error('Error issuing tokens after OIDC callback', error);
@@ -116,10 +124,34 @@ export class AuthenticationController {
         try {
             // SSO/JWT clients (the primary auth path) never establish a Passport session —
             // ssoCallback issues JWT tokens directly without calling req.login(). There's
-            // nothing server-side to tear down for them; the client just discards its tokens.
-            // Only fall through to req.logout() for legacy session-authenticated clients.
+            // nothing server-side to tear down for them beyond the app's own scratch
+            // session data (oidcState/oidcNonce). Only fall through to req.logout() for
+            // legacy session-authenticated clients.
             const hasSession = !!(req.session && (req.session as any).passport?.user);
             if (!hasSession) {
+                // Destroy the app's own session for hygiene, even though it holds no
+                // Passport user for SSO clients.
+                req.session?.destroy(() => {});
+
+                // If the client hands back the OIDC id_token it received at login, build
+                // a Keycloak RP-initiated logout URL so the browser can navigate there
+                // and truly end the user's SSO session (not just discard the app's JWT).
+                // Without this, Keycloak's own session cookie stays alive and the next
+                // "Sign in" attempt (even with prompt=login) reflects a still-logged-in IdP.
+                const idToken = (req.query.idToken as string) || (req.body && req.body.idToken);
+                if (idToken && this.oidcClient) {
+                    try {
+                        const ssoLogoutUrl = this.oidcClient.endSessionUrl({
+                            id_token_hint: idToken,
+                            post_logout_redirect_uri: oidc.POST_LOGOUT_REDIRECT_URL,
+                        });
+                        this.serverUtilityService.handleSuccess({ssoLogoutUrl}, res);
+                        return;
+                    } catch (error: any) {
+                        this.logger.error('Error building SSO end-session URL', error);
+                    }
+                }
+
                 this.serverUtilityService.handleSuccess(true, res);
                 return;
             }
@@ -129,6 +161,7 @@ export class AuthenticationController {
                     this.serverUtilityService.handleRestError('Error logout ', err, res);
                     return;
                 }
+                req.session?.destroy(() => {});
                 this.serverUtilityService.handleSuccess(true, res);
             });
         } catch (error: any) {
